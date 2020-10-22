@@ -6,7 +6,8 @@ let substantive = ["Tigers", "Pandas", "mirrors", "feathers", "programmers", "po
 let randomBandname = (adj, sub) => console.log("The " + adj + " " + sub);
 
 randomBandname(adjektive[Math.floor(Math.random() * adjektive.length)], substantive[Math.floor(Math.random() * substantive.length)]);
-//Teil 2: angleichen von adjektiven
+
+//Teil 2: angleichen von adjektiven an artikel 
 let artikel = ["der", "die", "das"];
 let deAdjektive = ["bester", "schönster", "fleißigster"]
 
