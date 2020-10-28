@@ -15,7 +15,7 @@ let pSubstantive = ["Musketiere", "Programmierer", "Verlierer"]
 
 //soll 10 mal ausgegeben werden 
 for (let i = 0; i < 10; i++) {
-    //Wählen von zufälligen Artikeln und Adjektiven mit Steigungen
+    //Wählen von (Pseudo-)zufälligen Artikeln und Adjektiven mit (Pseudo-)zufälliger Steigungen
     let art = artikel[Math.floor(Math.random() * artikel.length)];
     let adj = adjektive[Math.floor(Math.random() * adjektive.length)];
     adj = adj[Math.floor(Math.random() * adj.length)];
@@ -43,6 +43,7 @@ for (let i = 0; i < 10; i++) {
     }
 
     else {
+        //hier benötigt man zusätzliche Endungen für die adjektive
         if (!art.plural) {
             //Fall singular
             switch (art.article) {
