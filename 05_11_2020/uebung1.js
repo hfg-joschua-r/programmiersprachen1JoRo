@@ -43,7 +43,7 @@ function addFactorToPassword()
     else if(password.length >= 17){
         password = password.concat(characters[Math.floor(Math.random() * characters.length)])
     }
-    //wenn das Passwort mit einem F oder f beginnt Fügen wir ein sonderzeichen hinzu
+    //wenn das Passwort mit einem F oder f beginnt Fügen wir ein sonderzeichen hinzu. Auch mit password.Startswith möglich
     if(password.substr(0, 1) === "f" || password.substr(0, 1) === "F"){
         password = characters[Math.floor(Math.random() * characters.length)] + password
     }
