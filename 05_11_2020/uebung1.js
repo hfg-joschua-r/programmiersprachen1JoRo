@@ -8,7 +8,13 @@ const words2 = ["auto", "default", "text", "playlist", "codein", "fahrrad", "Rol
 
 //Das ist die funktion um die zwei zufällig gewählten wörter zu verbinden und dann in der Konsole ausgeben. Die Funktion erwartet 2 parameter: word1 und word2.
 let generatePassword = (word1, word2, count) => {
-    console.log("Das " + count + "te Passwort lautet: " + word1 + word2)
+    let random = Math.random()
+    if(random < 0.5){
+        console.log("Das " + count + "te Passwort lautet: " + word1 + word2)
+    }
+    else{
+        console.log("Das " + count + "te Passwort lautet: " + word2 + word1)
+    }
 }
 
 //Hier wird die oben beschrieben Funktion aufgerufen. Die zufälligen Wörter werden der Funktion direkt übergeben, um weniger Code zu haben. 
