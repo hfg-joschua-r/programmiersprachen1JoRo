@@ -8,7 +8,6 @@ Wenn alle Personen miteinander verwandt sind, soll etwas besonderes ausgegeben w
 const vornamen = ["Peter", "Tommy", "Rainer", "Bill", "Harvey", "Tom", "Jeff", "Julia", "Anette", "Elli"]
 const nachnamen = ["Goll", "Schwartzmann", "Schwalbe", "Murray", "Meier"]
 let personen = []
-let arrayCounter = 0;
 let _vorname
 let _nachname
 let counter
