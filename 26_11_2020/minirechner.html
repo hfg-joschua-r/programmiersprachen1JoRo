@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<body>
+  Erste Zahl:
+  <!-- bei den input-Feldern id hinzufügen -->
+  <input type="number" style="margin-right: 10px;" value="0" id="firstNmb">
+  <!-- bei jedem button onclick="" mit Funktionsaufruf hinzufügen -->
+  <button id = "+" onclick="add(document.getElementById('firstNmb').value, document.getElementById('scndNmb').value)">+</button>
+  <button id = "-" onclick="minus(document.getElementById('firstNmb').value, document.getElementById('scndNmb').value)">-</button>
+  <button id = "*" onclick="multiply(document.getElementById('firstNmb').value, document.getElementById('scndNmb').value)">*</button>
+  <button style="margin-right: 10px;" id = "/" onclick="divide(document.getElementById('firstNmb').value, document.getElementById('scndNmb').value)">/</button>
+  Zweite Zahl:
+  <input type="number" style="margin-right: 10px;" value="0" id="scndNmb">
+  <p>
+  Ergebnis:
+  <input disabled type="number" style="margin-right: 10px;" value="0" id="result">
+  </p>
+<p id="test">
+</p>
+<script>
+  function add(first, second){
+    let result = Number(first) + Number(second);
+    document.getElementById("result").value = result;
+  }
+  function minus(first, second){
+    let result = Number(first) - Number(second);
+    document.getElementById("result").value = result;
+  }
+  function multiply(first, second){
+    let result = Number(first) * Number(second);
+    document.getElementById("result").value = result;
+  }
+  function divide(first,second){
+    let result = Number(first) / Number(second);
+    document.getElementById("result").value = result;
+  }
+</script>
+<hr>
+Ver 2: <br>
+<input type="text" style="margin-right: 10px;" value="0" id="calculate">
+<button type="submit" onclick="calculate(document.getElementById('calculate').value)" id="cal">rechne mich</button>
+<p>
+    Ergebnis:
+    <input disabled type="number" style="margin-right: 10px;" value="0" id="result2">
+    </p>
+<script>
+    function calculate(operation){
+        let firstSegment 
+        let operator
+        let secondSegment
+        let result
+        if(operation.includes("+")) operator = "+"
+        else if(operation.includes("-")) operator = "-"
+        else if(operation.includes("*")) operator = "*"
+        else if(operation.includes("/")) operator = "/"
+        else console.log("no operator found")
+
+        firstSegment = Number(operation.substr(0, operation.indexOf(operator)))
+        secondSegment = operation.replace(String(firstSegment), "")
+        secondSegment = Number(secondSegment.replace(operator, ""))
+        //console.log("operation is " + firstSegment + operator + secondSegment)
+
+        if(operator === "+") result = firstSegment + secondSegment
+        else if(operator === "-") result = firstSegment - secondSegment
+        else if(operator === "*") result = firstSegment * secondSegment
+        else if(operator === "/") result = firstSegment / secondSegment
+        //Zeile 48 - 66 sind komplett nutzlos :)))))) es gibt eval() 
+        console.log(result)
+        document.getElementById("result2").value = eval(operation);
+    }
+</script>
+</body>
+</html>
