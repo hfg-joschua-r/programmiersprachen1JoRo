@@ -1,5 +1,6 @@
 console.log("script loaded")
 //decide who starts
+let currentColor = "";
 
 function determineStart(){
     let random = Math.random();
@@ -8,14 +9,24 @@ function determineStart(){
         //blau beginnt
         document.getElementById("header").innerHTML = "Team Blau beginnt!"
         document.getElementById("header").style.color =  "#3F88C5";
+        currentColor ="#3F88C5";
     }
     else{
         document.getElementById("header").innerHTML = "Team Orange beginnt!"
         document.getElementById("header").style.color =  "#e76f51";
+        currentColor ="#e76f51";
     }
 }
 
+function changeGridColor(tar, case1){ //case 1 = change to current color, case 2 = change to regular color
+    if(case1 == 1){      
+    document.getElementById(tar).style.background = currentColor;
+    }  
+    else{
+        document.getElementById(tar).style.background = "#ccc";
+    } 
 
+}
 function threeTimesthree(){
     /*toDO:  .inner-grid {
     width: 33.3%;
