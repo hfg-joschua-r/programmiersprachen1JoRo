@@ -1,0 +1,97 @@
+
+
+
+body{
+    margin: 20px;
+    background: #264653;
+}
+div {
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+h3 {
+    color: #f4a261;
+    font-family: 'Comfortaa';
+    font-weight: bold;
+    text-align: center;
+    font-size: 35px;
+    display: block;
+}
+h3:hover{
+    color: #e97b22;
+}
+.outer-grid {
+    position: relative;
+    float: left;
+    width: 40%;
+    height: auto;
+    margin-left: 31%;
+    padding-bottom:40%;
+    border: 3px solid #e76f51;
+    background-color: #2a9d8f;
+  }
+  .outer-square {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 90%;
+    height: 90%;
+    background-color: #ccc;
+    margin: 5%;
+    display: -webkit-flex;
+    -webkit-flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .inner-grid {
+    width: 33.3%;
+    height: 33.5%;
+    border: 2px solid #264653;
+    display: table;
+  }
+  .inner-grid:hover{
+      background: #e76f51;
+  }
+  
+  .inner-square {
+    line-height: 100%;
+    font-size: 50px;
+    font-family: 'Comfortaa';
+    font-weight: bold;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+ .score {
+    float: right;
+    width: 25%; 
+    height:10%;
+    margin-top:10%;
+    padding-right: 100px;
+  
+    
+ }
+ .scoreBtext {
+    color: #3F88C5;
+    font-size: 33px;
+    font-family: 'Comfortaa';
+    
+ }
+ .scoreOtext{
+    color: #e76f51;
+    font-size: 33px;
+    font-family: 'Comfortaa';
+ }
+ .resetButton{
+     position: fixed;
+     bottom: 1%; 
+     left: 46%;
+     height: 5%;
+     font-family: 'Comfortaa';
+     font-weight: bold;
+     width: 10%;
+     background: #264653;
+     color:#e76f51;
+     border: 2px #14272e solid;
+ }
