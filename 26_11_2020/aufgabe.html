@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .boxen {
+
+            width: 150px;
+            height: 150px;
+            background-color: green;
+            border-style: solid;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1 id="u1">Überschrift 1</h1>
+    <h2 id="u2">Überschrift 2</h2>
+
+    <p id="lorem" onmouseup="lorembg()" onmousedown="loremcolor()">Lorem ipsum dolor sit amet, consectetur adipisicing
+        elit. Autem, alias magni! Enim sapiente placeat
+        mollitia
+        asperiores ducimus officiis sed facilis quas vero, aut iste dolore neque eum rerum ea nesciunt.</p>
+
+    <div>
+        <p id="box1" class="boxen" onmousemove="showcoords(event)" onmouseenter="showcoords(event)"></p>
+    </div>
+    <div>
+        <p id="box2" class="boxen" onmouseenter="changebgc(event)"></p>
+    </div>
+    <div>
+        <p id="box3" class="boxen" onclick="changebgcolor()"></p>
+    </div>
+    <p><button onclick="bgcolor()">Hintergrund ändern</button></p>
+    <p><button onclick="textfarbe()">Textfarbe ändern</button></p>
+    <p><button onclick="helloworld()">Hello world</button></p>
+
+
+    <script>
+        let farben = ["red", "blue", "green", "yellow", "grey"]
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        function zufallsfarbe() {
+            return farben[getRandomInt(farben.length)]
+
+        }
+
+        function helloworld() {
+
+            alert("Hello World!")
+
+        }
+
+        function textfarbe() {
+
+            document.getElementById("u2").style.color = zufallsfarbe()
+
+        }
+
+        function bgcolor() {
+
+            document.getElementById("u1").style.backgroundColor = zufallsfarbe()
+        }
+
+        function showcoords() {
+
+            let x = event.clientX; // Get the horizontal coordinate
+            let y = event.clientY; // Get the vertical coordinate
+            document.getElementById("box1").innerHTML = "X: " + x + " | " + "Y: " + y
+
+        }
+
+        function changebgc() {
+
+            document.getElementById("box2").style.backgroundColor = zufallsfarbe()
+            document.getElementById("box2").style.borderRadius = getRandomInt(30)
+
+        }
+
+        function changebgcolor() {
+
+            document.getElementById("box3").style.backgroundColor = zufallsfarbe()
+
+        }
+
+        function lorembg() {
+
+            document.getElementById("lorem").style.backgroundColor = zufallsfarbe()
+
+        }
+
+        function loremcolor() {
+
+            document.getElementById("lorem").style.color = zufallsfarbe()
+
+        }
+    </script>
+
+</body>
+
+</html>
