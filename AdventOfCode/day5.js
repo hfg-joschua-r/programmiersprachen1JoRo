@@ -1,12 +1,15 @@
 var fs = require("fs");
 var inputTXT = fs.readFileSync("./day5input.txt").toString();
 var input = inputTXT.split("\n")
-
+let highestTicketID = 0;
 input.forEach((seat, index) => {
     let curMin
     let curMax
     let curRange = 127;
     let seatRow
+    let seatColumn
+    let ticketID
+
     if(seat[0] == "F"){
         curMin = 0;
         curMax = 63;
@@ -88,13 +91,48 @@ input.forEach((seat, index) => {
     }
     curMax = 7;
     curMin = 0;
-    console.log("Seatrow is: " + seatRow)
-    
+    curRange = Math.ceil(curMax - curMin);
+   // console.log("Seatrow is: " + seatRow)
+  
     //determing exact seat:
     if(seat[7] === "R"){
-
+        curMin = 4;
     }
     else if(seat[7] === "L"){
-        
+        curMax = 3;
     }
+    curRange = Math.ceil(curMax - curMin);
+
+    if(seat[8] === "R"){
+        curMin = (curMin + Math.ceil(curRange/2));
+    }
+    else if(seat[8] === "L"){
+        curMax = (curMax - Math.ceil(curRange/2));
+    }
+    curRange = Math.ceil(curMax - curMin);
+
+    if(seat[9] === "R"){
+        curMin = (curMin + Math.ceil(curRange/2));
+        seatColumn = curMin;
+    }
+    
+    else if(seat[9] === "L"){
+        curMax = (curMax - Math.ceil(curRange/2));
+        seatColumn = curMax
+    }
+   // console.log("Seatrow is: " + seatRow + " at Column: " + seatColumn)
+    console.log(seatRow)
+    if(seatRow == 0){
+    console.log("break! doesnt exist")
+    }
+    else{
+        ticketID = seatRow * 8 + seatColumn;
+        //console.log("TicketID " + ticketID)
+        if(ticketID > highestTicketID){
+            highestTicketID = ticketID;
+        }
+    }
+   
 })
+
+console.log("Highest ticket id is: " + highestTicketID);
