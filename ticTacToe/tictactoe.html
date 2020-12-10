@@ -15,6 +15,7 @@
   </head>
 
   <body>
+    
     <h3 onclick="determineStart()" id="header">Wer fängt an?</h3>
     <div id="settings" style="display: inline-block">
       <button>9x9</button>
@@ -24,42 +25,42 @@
       <span id="blau" class="scoreBtext">Blaues Team: </span>
       <span id="orange" class="scoreOtext">Orangenes Team: </span>
     </div>
-    <div class="outer-grid">
+    <div id="outerGrid" class="outer-grid">
       <!--äußere box/ramen-->
-      <div class="outer-square">
+      <div class="outer-square" id="outerGrid" >
         <!--Parent für alle einzelnen boxen-->
-        <div class="inner-grid">
-          <!--einzelne boxen-->
+        <div id="00" class="inner-grid">
           <div class="inner-square"></div>
           <!--Elemente in Boxen-->
         </div>
-        <div id="box2" class="inner-grid" onmouseenter="changeGridColor('box2', 1)" onmouseexit="changeGridColor('box2', 2);">
-          <div class="inner-square">X</div>
-        </div>
-        <div class="inner-grid">
+        <div id ="01"class="inner-grid">
           <div class="inner-square"></div>
         </div>
-        <div class="inner-grid">
-          <div class="inner-square">X</div>
-        </div>
-        <div class="inner-grid">
+        <div id="02"class="inner-grid">
           <div class="inner-square"></div>
         </div>
-        <div class="inner-grid">
+        <div id="10"class="inner-grid">
           <div class="inner-square"></div>
         </div>
-        <div class="inner-grid">
+        <div id="11"class="inner-grid">
           <div class="inner-square"></div>
         </div>
-        <div class="inner-grid">
-          <div class="inner-square">O</div>
+        <div id="12"class="inner-grid">
+          <div class="inner-square"></div>
         </div>
-        <div class="inner-grid">
+        <div id="20"class="inner-grid">
+          <div class="inner-square"></div>
+        </div>
+        <div id="21"class="inner-grid">
+          <div class="inner-square"></div>
+        </div>
+        <div id="22"class="inner-grid">
           <div class="inner-square"></div>
         </div>
         <!--9 divs-->
       </div>
     </div>
     <button class="resetButton" onclick="resetGame()">RESET GAME</button>
+    
   </body>
 </html>
