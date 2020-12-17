@@ -3,3 +3,8 @@
 #e9c46a
 #f4a261
 #e76f51
+
+ <div id="score" class="score">
+      <span id="blau" class="scoreBtext">Blaues Team: </span>
+      <span id="orange" class="scoreOtext">Orangenes Team: </span>
+    </div>

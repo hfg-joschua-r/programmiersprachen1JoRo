@@ -11,9 +11,9 @@ h3 {
   color: #f4a261;
   font-family: "Comfortaa";
   font-weight: bold;
-  text-align: center;
   font-size: 35px;
-  display: block;
+  display: flex;
+  justify-content: center;
 }
 h3:hover {
   color: #e97b22;
@@ -21,9 +21,11 @@ h3:hover {
 .outer-grid {
   position: relative;
   width: 40%;
-  margin-left: 31%;
+  margin:0 auto;
   padding-bottom: 40%;
   background-color: #2a9d8f;
+  display: flex;
+  justify-content: center;
 }
 .outer-square {
   position: absolute;
@@ -36,17 +38,16 @@ h3:hover {
   display: -webkit-flex;
   -webkit-flex-wrap: wrap;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 }
 .inner-grid {
   width: 33.3%;
-  height: 33.5%;
+  height: 33.3%;
   border: 2px solid #264653;
   display: table;
   background-color: var(--grid-color);
 }
-
-
 .inner-square {
   line-height: 100%;
   font-size: 50px;
