@@ -7,7 +7,7 @@ let gameField = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""]
-];
+]
 
 let grids = document.getElementsByClassName("inner-grid");
 //Add event listeners to grids!
