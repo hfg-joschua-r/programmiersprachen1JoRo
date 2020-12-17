@@ -8,56 +8,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap"
-      rel="stylesheet"/>
+      rel="stylesheet"
+    />
     <!--Include jquery-->
-      <script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
     <meta charset="utf-8" />
     <script defer src="ticScript.js"></script>
     <title>Tic Tac Toe!</title>
   </head>
   <body>
-    
-    <h3 onclick="determineStart()" id="header">Wer fängt an?</h3>
-   
-    <div id="outerGrid" class="outer-grid">
+    <h3 onclick="settingsMenu()" id="header">Wer fängt an?</h3>
+    <div class="outer-grid" id="outerGrid">
       <!--äußere box/ramen-->
-      <div class="outer-square" id="outerGrid" >
+      <div class="outer-square">
         <!--Parent für alle einzelnen boxen-->
-        <div id="00" class="inner-grid">
-          <div class="inner-square"></div>
-          <!--Elemente in Boxen-->
+        <div class="settingsContainer">
+          <ul class="settingsTextHeader">
+            Click the button above to start the Game.
+            <li class="settingsText">Choose your Game Size: <br>
+            <input type="number" value="3"  id="gameSizeX"> x <input type="number" value="3" id="gameSizeY">
+            </li>
+            <li class="settingsText">Choose how many Fields are needed to win: <br>
+            <input type="number" value="3" id="pointsToWin"></li>
+            <li class="settingsText"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
+          </ul>
         </div>
-        <div id ="01"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="02"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="10"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="11"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="12"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="20"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="21"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="22"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <!--9 divs-->
       </div>
     </div>
     <button class="resetButton" onclick="resetGame()">RESET GAME</button>
-    
   </body>
 </html>

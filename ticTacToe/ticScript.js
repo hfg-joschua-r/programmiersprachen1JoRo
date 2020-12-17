@@ -3,155 +3,199 @@ console.log("script loaded");
 let currentColor = "";
 let gameRunning = false;
 let teamToMove = "";
-let gameField = [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""]
-]
+let pointsToWin;
+let gameSize; //We need this variable later on when it comes to check for wins
+let gameField = [];
 
+//This defines our UI that pops up when the user opens the page to setup his game:
+function settingsMenu() {
+  let gX = $("#gameSizeX").val(); //gameSizeX
+  let gY = $("#gameSizeY").val(); //gameSizeY
+  let ptw = $("#pointsToWin").val(); //points TO Win
+  //toDO: lock second input and adjust val
+  if (gX != gY) alert("The game field must have the same value!");
+  else {
+    if (ptw >= gX){
+      //bug: wenn 10x10 spielfeld kommen wir hier rein, unabhängig welchge ptw man wählt
+       console.log(ptw + ">" + gX);
+    alert("Points to win have to be less than the game Size!");
+    }
+    else {
+      if(gX > 10) alert("The game field size can't be larger than 10!")
+      else{
+      initUI(gX, ptw);
+      }
+    }
+  }
+}
+//New function: initialize UI with given parameters! gameSize = size of GameField pointsToWin = number of
+function initUI(gameSizeY, p) {
+  //Generate GameField
+  //removeSettingsMenu
+  $(".settingsContainer").remove();
 
-let grids = document.getElementsByClassName("inner-grid");
+  //At this point we only allow square GameFields
+  gameSizeX = gameSizeY;
+  gameSize = gameSizeY; //assign to store it in our script
+  let curID = 0;
+  let gridNumber = gameSizeX * gameSizeY;
+  //ToDo: change style width and height attributes
+  let gridSize = (gameSizeX / gridNumber) * 100;
+  for (let i = 0; i < gameSizeY; i++) {
+    gameField.push([]);
+
+    for (let j = 0; j < gameSizeX; j++) {
+      gameField[i].push("");
+      curID = i + "" + j;
+      //Our grid is capsuled by our OuterGrid, and THEN our Outer Square, the single Grid Panel has an inner-grid and an inner-square
+      $("div.outer-square").append(
+        `<div id='${curID}'class='inner-grid' style='width: ${gridSize}%; height: ${gridSize}%'><div class='inner-square'></div></div>`
+      );
+    }
+  }
+  //set pointsToWin
+  pointsToWin = p;
+  addEventListeners();
+  determineStart();
+}
+
 //Add event listeners to grids!
 function addEventListeners() {
-    for (let i = 0; i < grids.length; i++) {
-        grids[i].addEventListener('click', function () {
-            if(gameRunning)
-            handleGridClick(grids[i]);
-        });
+  let grids = document.getElementsByClassName("inner-grid");
+  for (let i = 0; i < grids.length; i++) {
+    grids[i].addEventListener("click", function () {
+      if (gameRunning) handleGridClick(grids[i]);
+    });
 
-        grids[i].addEventListener('mouseover', function () {
-            if(gameRunning)
-            grids[i].style.setProperty('--grid-color', currentColor)
-        })
+    grids[i].addEventListener("mouseover", function () {
+      if (gameRunning) grids[i].style.setProperty("--grid-color", currentColor);
+    });
 
-        grids[i].addEventListener('mouseout', function () {
-            if(gameRunning)
-            grids[i].style.setProperty('--grid-color', "#ccc");
-        })
-    }
+    grids[i].addEventListener("mouseout", function () {
+      if (gameRunning) grids[i].style.setProperty("--grid-color", "#ccc");
+    });
+  }
 }
-addEventListeners();
 
 function determineStart() {
-    let random = Math.random();
+  let random = Math.random();
+  console.log(teamToMove);
+  if (teamToMove === "") {
     gameRunning = true;
-    if (teamToMove === "") {
-        if (random > 0.5) {
-            //blau beginnt
-            document.getElementById("header").innerHTML = "Team blue begins!"
-            document.getElementById("header").style.color = "#3F88C5";
-            currentColor = "#3F88C5";
-            teamToMove = "b";
-        }
-        else {
-            document.getElementById("header").innerHTML = "Team orange begins!"
-            document.getElementById("header").style.color = "#e76f51";
-            currentColor = "#e76f51";
-            teamToMove = "o";
-        }
+    if (random > 0.5) {
+      //blau beginnt
+      $("#header").html("Team blue begins!");
+      $("#header").css.color = "#3F88C5";
+      //document.getElementById("header").innerHTML = "Team blue begins!";
+      //document.getElementById("header").style.color = "#3F88C5";
+      currentColor = "#3F88C5";
+      teamToMove = "b";
+    } else {
+      $("#header").html("Team orange begins!");
+      $("#header").css.color = "#e76f51";
+      //document.getElementById("header").innerHTML = "Team orange begins!";
+      //document.getElementById("header").style.color = "#e76f51";
+      currentColor = "#e76f51";
+      teamToMove = "o";
     }
-    else {
-        alert("If you wanna restart the game press the button below");
-    }
+  } else {
+    alert("If you wanna restart the game press the button below");
+  }
 }
 
-function handleGridClick(selGrid) { //handle clicks received by function
-    let pos = selGrid.id;
+function handleGridClick(selGrid) {
+  //handle clicks received by function
+  let pos = selGrid.id;
+  if (selGrid.childNodes[0].innerHTML === "") {
     gameField[pos[0]][pos[1]] = teamToMove;
-    if (selGrid.childNodes[1].innerHTML === "") {
-        if (teamToMove === "o") {
-            selGrid.childNodes[1].innerHTML = "O";
-            currentColor = "#3F88C5";
-            teamToMove = "b";
-            document.getElementById("header").style.color = "#3F88C5";
-            document.getElementById("header").innerHTML = "Blue, it's your turn!";
-
-        }
-        else if (teamToMove === "b") {
-            selGrid.childNodes[1].innerHTML = "X";
-            teamToMove = "o";
-            currentColor = "#e76f51";
-            document.getElementById("header").style.color ="#e76f51";
-            document.getElementById("header").innerHTML = "Orange, it's your turn!";
-        }
+    if (teamToMove === "o") {
+      selGrid.childNodes[0].innerHTML = "O";
+      currentColor = "#3F88C5";
+      teamToMove = "b";
+      $("#header").html("Blue, it's your turn!");
+      $("#header").css.color = currentColor;
+    } else if (teamToMove === "b") {
+      selGrid.childNodes[0].innerHTML = "X";
+      teamToMove = "o";
+      currentColor = "#e76f51";
+      $("#header").html("Orange, it's your turn!");
+      $("#header").css.color = currentColor;
     }
-    else {
-        document.getElementById("header").innerHTML;
-    }
-    winCheck2();
+  } else {
+    $("#header").html("Please select an empty field!");
+  }
+  //winCheck2();
+  checkForWin();
 }
+
 //es gibt 9 gewinn patterns, diese werden hier abgefragt
-function winCheck2() {
-    console.log(gameField)
-    for (let i = 0; i < 3; i++) {
-        //vertikal
-        if (gameField[0][i] != "" && gameField[0][i] === gameField[1][i] && gameField[1][i] === gameField[2][i]) {
-            console.log("we have a winner!")
-            win(gameField[0][i], "0" + i, "1" + i, "2" + i);
-        }
-        //horizontal
-        if (gameField[i][0] != "" && gameField[i][0] === gameField[i][1] && gameField[i][0] === gameField[i][2]) {
-            console.log("we have a horizontal winner")
-            win(gameField[i][0],i + "0", i + "1", i + "2");
-        }
+function checkForWin() {
+  console.log(gameField);
+  let curLineV = "";
+  let curLineH = "";
+  //checking vertical and horizontal wins
+  for (let i = 0; i < gameSize; i++) {
+    curLineV = "";
+    curLineH = "";
+
+    let winCondition1 = "b".repeat(pointsToWin);
+    let winCondition2 = "o".repeat(pointsToWin);
+    //checking verticals:
+    for (let j = 0; j < gameField[i].length; j++) {
+      curLineV += gameField[i][j];
+      curLineH += gameField[j][i];
     }
-    //diagonal von oben links nach unten rechts
-    if (gameField[0][0] != "" && gameField[0][0] === gameField[1][1] && gameField[0][0] === gameField[2][2]) {
-        console.log("we have a diagonal winner")
-        win(gameField[0][0], "00","11","22");
-    }
-    if (gameField[0][2] != "" && gameField[0][2] === gameField[1][1] && gameField[0][2] === gameField[2][0]) {
-        console.log("we have a diagonal winner");
-        win(gameField[0][2],"02", "11", "20");
-    }
-}
-function win(team, id1, id2, id3) {
-    console.log("IDS are: " + id1 + id2 + id3)
-    gameRunning = false;
-    if (team === "b") {
-        document.getElementById("header").style.color = "#3F88C5";
-        document.getElementById("header").innerHTML = "The blue team has Won!";
-        document.getElementById(id1).style.setProperty('--grid-color', "#3F88C5");
-        document.getElementById(id2).style.setProperty('--grid-color', "#3F88C5");
-        document.getElementById(id3).style.setProperty('--grid-color', "#3F88C5");
-    }
-    else {
-        //alert("The orange team has Won!")
-        document.getElementById("header").style.color = "#e76f51";
-        document.getElementById("header").innerHTML = "The orange team has Won!";
-        document.getElementById(id1).style.setProperty('--grid-color', "#e76f51");
-        document.getElementById(id2).style.setProperty('--grid-color', "#e76f51");
-        document.getElementById(id3).style.setProperty('--grid-color', "#e76f51");
-    }
-    //Input our beautiful Confetti effect!, insertAdjacentHTML doesnt changes our Mouseevents.
-    document.getElementById("outerGrid").insertAdjacentHTML('beforeend', '<div class="pyro" id="py"> <div class="before"></div> <div class="after"></div> </div>');
+    if (curLineV.includes(winCondition1)) win("b", i);
+    else if (curLineV.includes(winCondition2)) win("o", i);
+
+    if (curLineH.includes(winCondition1)) win("b", i);
+    else if (curLineH.includes(winCondition2)) win("o", i);
+  }
 }
 
+function win(team, winningIDs) {
+  gameRunning = false;
+  if (team === "b") {
+    $("#header").html("The blue team has Won!");
+    $("#header").css.color = "#3F88C5"; //set to blue
+    //toDO highlight winning line
+  } else {
+    $("#header").html("The orange team has Won!");
+    $("#header").css.color = "#e76f51"; //set to orange
+    //toDO highlight winning line
+  }
+  //Input our beautiful Confetti effect!, insertAdjacentHTML doesnt changes our Mouseevents.
+  $(".outer-grid").before(
+    '<div class="pyro" id="py"> <div class="before"></div> <div class="after"></div> </div>'
+  );
+  $(".outer-square").prepend(
+    '<div class="pyro" id="py"> <div class="before"></div> <div class="after"></div> </div>'
+  );
+}
 
 function resetGame() {
-    let objs = document.getElementsByClassName("inner-square")
-    for (let i = 0; i < objs.length; i++) {
-        objs[i].innerHTML = "";
-    }
-    currentColor = "";
-    teamToMove = "";
-    document.getElementById("header").style.color = "#f4a261";
-    document.getElementById("header").innerHTML = "Wer fängt an?"
-    document.getElementById("header").onclick = determineStart();
-    gameField = [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""]
-    ];
-    if (document.getElementById("py") != null) {
-        let pyro = document.getElementById("py");
-        pyro.remove();
-    }
-    //reset grid colors:
-    let grids = document.getElementsByClassName("inner-grid");
-    for (let i = 0; i < grids.length; i++) {
-        grids[i].style.setProperty('--grid-color', "#ccc")
-    }
+  currentColor = "";
+  teamToMove = "";
+  $("#header").html("Wer fängt an?");
+  $("#header").css.color = "#f4a261"; //set to default color
+  $(".pyro").remove();
+  $(".inner-grid").remove();
+  gameField = [];
+  openSettings();
+}
+function openSettings() {
+  //add our settingsHTML
+  $(".outer-square").prepend(`<div class="settingsContainer">
+  <ul class="settingsTextHeader">
+    Click the button above to start the Game.
+    <li class="settingsText">Choose your Game Size: <br>
+    <input type="number" value="3" id="gameSizeX"> x <input type="number" value="3"  id="gameSizeY">
+    </li>
+    <li class="settingsText">Choose how many Fields are needed to win: <br>
+    <input type="number" value="3" id="pointsToWin"></li>
+    <li class="settingsText"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
+  </ul>
+</div>`);
 }
 
 /*Obsolete Code, interesting nonetheless
@@ -219,5 +263,44 @@ function winCheck(y,x){
         //gewinn
         console.log("we have a winner!")
     }
+}
+function winCheck2() {
+  console.log(gameField);
+  for (let i = 0; i < 3; i++) {
+    if (
+      gameField[0][i] != "" &&
+      gameField[0][i] === gameField[1][i] &&
+      gameField[1][i] === gameField[2][i]
+    ) {
+      console.log("we have a winner!");
+      win(gameField[0][i], "0" + i, "1" + i, "2" + i);
+    }
+    //horizontal
+    if (
+      gameField[i][0] != "" &&
+      gameField[i][0] === gameField[i][1] &&
+      gameField[i][0] === gameField[i][2]
+    ) {
+      console.log("we have a horizontal winner");
+      win(gameField[i][0], i + "0", i + "1", i + "2");
+    }
+  }
+  //diagonal von oben links nach unten rechts
+  if (
+    gameField[0][0] != "" &&
+    gameField[0][0] === gameField[1][1] &&
+    gameField[0][0] === gameField[2][2]
+  ) {
+    console.log("we have a diagonal winner");
+    win(gameField[0][0], "00", "11", "22");
+  }
+  if (
+    gameField[0][2] != "" &&
+    gameField[0][2] === gameField[1][1] &&
+    gameField[0][2] === gameField[2][0]
+  ) {
+    console.log("we have a diagonal winner");
+    win(gameField[0][2], "02", "11", "20");
+  }
 }
 */
