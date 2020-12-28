@@ -6,6 +6,18 @@ let teamToMove = "";
 let pointsToWin;
 let gameSize; //We need this variable later on when it comes to check for wins
 let gameField = [];
+//adding our some soundeffects here 
+let bumm = new Audio("bumm.wav");
+let chack = new Audio("chack.flac");
+let beep1 = new Audio("beep1.wav");
+let beep2 = new Audio("beep2.wav");
+let victory = new Audio("victory.mp3");
+
+//We want to adjust our x or y value for our gamefield so that its only possible to create squares
+function onGameSizeValueChange(){
+  $("#gameSizeY").val($("#gameSizeX").val());
+  beep1.play();
+}
 
 //This defines our UI that pops up when the user opens the page to setup his game:
 function settingsMenu() {
@@ -15,35 +27,36 @@ function settingsMenu() {
   //toDO: lock second input and adjust val
   if (gX != gY) alert("The game field must have the same value!");
   else {
-    if (ptw >= gX){
-      //bug: wenn 10x10 spielfeld kommen wir hier rein, unabhängig welchge ptw man wählt
-       console.log(ptw + ">" + gX);
-    alert("Points to win have to be less than the game Size!");
-    }
-    else {
-      if(gX > 10) alert("The game field size can't be larger than 10!")
-      else{
-      initUI(gX, ptw);
+    if (ptw > gX) {
+      //bug: wenn 10x10 spielfeld kommen wir hier rein, unabhängig welchge ptw man wählt???
+      console.log(ptw + " > " + gX);
+      alert("Points to win have to be less than the game Size!");
+    } else {
+      //currently we only support game fields up to a size of 10x10
+      if (gX > 10) alert("The game field size can't be larger than 10!");
+      else {
+        //tell our UI to load
+        initUI(gX, ptw);
+        beep2.play();
       }
     }
   }
 }
-//New function: initialize UI with given parameters! gameSize = size of GameField pointsToWin = number of
+//New function: initialize UI with given parameters! gameSize = size of GameField pointsToWin = number of Points needed to win the game
 function initUI(gameSizeY, p) {
   //Generate GameField
   //removeSettingsMenu
   $(".settingsContainer").remove();
-
   //At this point we only allow square GameFields
   gameSizeX = gameSizeY;
   gameSize = gameSizeY; //assign to store it in our script
-  let curID = 0;
+  let curID = 0; //storing the current ID of the single grid
   let gridNumber = gameSizeX * gameSizeY;
   //ToDo: change style width and height attributes
   let gridSize = (gameSizeX / gridNumber) * 100;
   for (let i = 0; i < gameSizeY; i++) {
+    //fill our GameField array with the right size
     gameField.push([]);
-
     for (let j = 0; j < gameSizeX; j++) {
       gameField[i].push("");
       curID = i + "" + j;
@@ -53,13 +66,17 @@ function initUI(gameSizeY, p) {
       );
     }
   }
+  //add ResetGameButton
+  $("div.outer-grid").append(
+    '<button class="resetButton" onclick="resetGame()">RESET GAME</button>'
+  );
   //set pointsToWin
   pointsToWin = p;
   addEventListeners();
   determineStart();
 }
 
-//Add event listeners to grids!
+//Add event listeners to grids! For clicks and mouseOver effects
 function addEventListeners() {
   let grids = document.getElementsByClassName("inner-grid");
   for (let i = 0; i < grids.length; i++) {
@@ -76,14 +93,13 @@ function addEventListeners() {
     });
   }
 }
-
+//determine which team should go first
 function determineStart() {
   let random = Math.random();
-  console.log(teamToMove);
   if (teamToMove === "") {
     gameRunning = true;
     if (random > 0.5) {
-      //blau beginnt
+      //blau begins 
       $("#header").html("Team blue begins!");
       $("#header").css.color = "#3F88C5";
       //document.getElementById("header").innerHTML = "Team blue begins!";
@@ -91,6 +107,7 @@ function determineStart() {
       currentColor = "#3F88C5";
       teamToMove = "b";
     } else {
+      //orange begins
       $("#header").html("Team orange begins!");
       $("#header").css.color = "#e76f51";
       //document.getElementById("header").innerHTML = "Team orange begins!";
@@ -103,18 +120,23 @@ function determineStart() {
   }
 }
 
+//this function is called everytime the user clicks on a field
 function handleGridClick(selGrid) {
-  //handle clicks received by function
+  //we determine the position of the current Grid by identifying it's id
   let pos = selGrid.id;
+  //if the grid is still empty we can fill in our Team
   if (selGrid.childNodes[0].innerHTML === "") {
     gameField[pos[0]][pos[1]] = teamToMove;
+    //change team thats on the move, add content to our Field and change Colors
     if (teamToMove === "o") {
+      bumm.play();
       selGrid.childNodes[0].innerHTML = "O";
       currentColor = "#3F88C5";
       teamToMove = "b";
       $("#header").html("Blue, it's your turn!");
       $("#header").css.color = currentColor;
     } else if (teamToMove === "b") {
+      chack.play();
       selGrid.childNodes[0].innerHTML = "X";
       teamToMove = "o";
       currentColor = "#e76f51";
@@ -125,36 +147,86 @@ function handleGridClick(selGrid) {
     $("#header").html("Please select an empty field!");
   }
   //winCheck2();
+  //call our function if we have a win situation
   checkForWin();
 }
 
-//es gibt 9 gewinn patterns, diese werden hier abgefragt
+//Look for possible Wins
 function checkForWin() {
+  //log our current state of the gameField
   console.log(gameField);
+  //we store our lines of the grid in these variables
   let curLineV = "";
   let curLineH = "";
+  
+  //set our Win condition by repeating the teams letters the number of times
+  let winCondition1 = "b".repeat(pointsToWin);
+  let winCondition2 = "o".repeat(pointsToWin);
   //checking vertical and horizontal wins
   for (let i = 0; i < gameSize; i++) {
     curLineV = "";
     curLineH = "";
-
-    let winCondition1 = "b".repeat(pointsToWin);
-    let winCondition2 = "o".repeat(pointsToWin);
-    //checking verticals:
+    //loop through each and every Field
     for (let j = 0; j < gameField[i].length; j++) {
+      //add the content of the field to our string
       curLineV += gameField[i][j];
       curLineH += gameField[j][i];
     }
+    //check our generated strings against our winconditions
     if (curLineV.includes(winCondition1)) win("b", i);
     else if (curLineV.includes(winCondition2)) win("o", i);
 
     if (curLineH.includes(winCondition1)) win("b", i);
     else if (curLineH.includes(winCondition2)) win("o", i);
   }
+  //check diagonals
+  //diagonal line from the left top to the right bottom 
+  let curLineD = "";
+  //diagonal line from the top right to the bottom left
+  let curLineD2 = "";
+  for (let i = 0; i < gameSize; i++) {
+    //gameField[i][0] is our horizontal field
+    //gameField[0][j] is our vertical field
+    for (let j = 0; j < gameSize; j++) {
+      //in here we check every single Gamefield from up left to down right
+      curLineD = "";
+      curLineD2 = "";
+      //check that we dont try to acess values of our array, that do not exist
+      if (i + (pointsToWin - 1) < gameSize) {
+        if (j + (pointsToWin - 1) < gameSize) {
+          for(let m = 0; m < pointsToWin; m ++){
+            curLineD += gameField[i + m][j + m];
+          }
+          //console.log(curLineD);
+          //curLineD = gameField[i][j] + gameField[i + 1][j + 1] + gameField[i + 2][j + 2];
+
+          //check for win
+          if (curLineD.includes(winCondition1)) win("b", i);
+          else if (curLineD.includes(winCondition2)) win("o", i);
+        }
+      }
+      if(j - (pointsToWin - 1) >= 0) {
+        console.log("we in")
+        if(i + (pointsToWin - 1) < gameSize){
+          for(let m = 0; m < pointsToWin; m ++){
+            curLineD2 += gameField[i + m][j - m];
+          }
+          console.log(curLineD2);
+          if (curLineD2.includes(winCondition1)) win("b", i);
+          else if (curLineD2.includes(winCondition2)) win("o", i);
+        }
+      }
+
+    }
+  }
 }
 
+//if we have a win, all the effects etc. are added here:
 function win(team, winningIDs) {
   gameRunning = false;
+  //we pause the game to prevent additional clicks on our grid and play the victory song
+  victory.play();
+  //Signalize which team has won
   if (team === "b") {
     $("#header").html("The blue team has Won!");
     $("#header").css.color = "#3F88C5"; //set to blue
@@ -162,7 +234,7 @@ function win(team, winningIDs) {
   } else {
     $("#header").html("The orange team has Won!");
     $("#header").css.color = "#e76f51"; //set to orange
-    //toDO highlight winning line
+    //toDO: highlight winning line
   }
   //Input our beautiful Confetti effect!, insertAdjacentHTML doesnt changes our Mouseevents.
   $(".outer-grid").before(
@@ -173,13 +245,18 @@ function win(team, winningIDs) {
   );
 }
 
+//If the user wishes to reset the game we call this function we reset our game to the UI
+//ToDo: add option to play another Game, add Count of rounds won by each team 
 function resetGame() {
+  victory.pause();
+  beep2.play();
   currentColor = "";
   teamToMove = "";
   $("#header").html("Wer fängt an?");
   $("#header").css.color = "#f4a261"; //set to default color
   $(".pyro").remove();
   $(".inner-grid").remove();
+  $(".resetButton").remove();
   gameField = [];
   openSettings();
 }
@@ -189,10 +266,10 @@ function openSettings() {
   <ul class="settingsTextHeader">
     Click the button above to start the Game.
     <li class="settingsText">Choose your Game Size: <br>
-    <input type="number" value="3" id="gameSizeX"> x <input type="number" value="3"  id="gameSizeY">
+    <input type="number" value="3" id="gameSizeX" oninput="onGameSizeValueChange();"> x <input type="number" value="3"  id="gameSizeY" disabled>
     </li>
     <li class="settingsText">Choose how many Fields are needed to win: <br>
-    <input type="number" value="3" id="pointsToWin"></li>
+    <input type="number" value="3" id="pointsToWin" oninput="onGameSizeValueChange();"></li>
     <li class="settingsText"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
   </ul>
 </div>`);

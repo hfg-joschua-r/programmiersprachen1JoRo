@@ -30,15 +30,14 @@
           <ul class="settingsTextHeader">
             Click the button above to start the Game.
             <li class="settingsText">Choose your Game Size: <br>
-            <input type="number" value="3"  id="gameSizeX"> x <input type="number" value="3" id="gameSizeY">
+            <input type="number" value="3"  id="gameSizeX" oninput="onGameSizeValueChange();"> x <input type="number" value="3" id="gameSizeY" disabled>
             </li>
             <li class="settingsText">Choose how many Fields are needed to win: <br>
-            <input type="number" value="3" id="pointsToWin"></li>
+            <input type="number" value="3" id="pointsToWin" oninput="onGameSizeValueChange();"></li>
             <li class="settingsText"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
           </ul>
         </div>
       </div>
     </div>
-    <button class="resetButton" onclick="resetGame()">RESET GAME</button>
   </body>
 </html>
