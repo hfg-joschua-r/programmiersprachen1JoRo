@@ -6,7 +6,13 @@ let teamToMove = "";
 let pointsToWin;
 let gameSize; //We need this variable later on when it comes to check for wins
 let gameField = [];
-//adding our some soundeffects here 
+//store our points per Team
+let pointsL = 0;
+let pointsR = 0;
+//store our player names
+let playerNameOne;
+let playerNameTwo;
+//adding our some soundeffects here
 let bumm = new Audio("bumm.wav");
 let chack = new Audio("chack.flac");
 let beep1 = new Audio("beep1.wav");
@@ -14,16 +20,30 @@ let beep2 = new Audio("beep2.wav");
 let victory = new Audio("victory.mp3");
 
 //We want to adjust our x or y value for our gamefield so that its only possible to create squares
-function onGameSizeValueChange(){
+function onGameSizeValueChange() {
   $("#gameSizeY").val($("#gameSizeX").val());
   beep1.play();
 }
+
+$("#playerOne").on("input", function (e) {
+  $("#scoreL").html(`<br>${$("#playerOne").val()}`);
+  playerNameOne = `<br>${$("#playerOne").val()}`;
+});
+
+$("#playerTwo").on("input", function (e) {
+  $("#scoreR").html(`<br>${$("#playerTwo").val()}`);
+  playerNameTwo = `<br>${$("#playerTwo").val()}`;
+});
 
 //This defines our UI that pops up when the user opens the page to setup his game:
 function settingsMenu() {
   let gX = $("#gameSizeX").val(); //gameSizeX
   let gY = $("#gameSizeY").val(); //gameSizeY
   let ptw = $("#pointsToWin").val(); //points TO Win
+  playerNameOne = `<br>${$("#playerOne").val()}`;
+  $("#scoreR").html(`<br>${$("#playerTwo").val()}`);
+  playerNameTwo = `<br>${$("#playerTwo").val()}`;
+  $("#scoreL").html(`<br>${$("#playerOne").val()}`);
   //toDO: lock second input and adjust val
   if (gX != gY) alert("The game field must have the same value!");
   else {
@@ -36,8 +56,11 @@ function settingsMenu() {
       if (gX > 10) alert("The game field size can't be larger than 10!");
       else {
         //tell our UI to load
-        initUI(gX, ptw);
-        beep2.play();
+        if ($("#playerOne").val() != "" && $("#playerTwo").val() != "") {
+          initUI(gX, ptw);
+          beep2.play();
+        }
+        else alert("You must choose a name for your players!")
       }
     }
   }
@@ -50,6 +73,7 @@ function initUI(gameSizeY, p) {
   //At this point we only allow square GameFields
   gameSizeX = gameSizeY;
   gameSize = gameSizeY; //assign to store it in our script
+
   let curID = 0; //storing the current ID of the single grid
   let gridNumber = gameSizeX * gameSizeY;
   //ToDo: change style width and height attributes
@@ -96,32 +120,35 @@ function addEventListeners() {
 //determine which team should go first
 function determineStart() {
   let random = Math.random();
-  if (teamToMove === "") {
+  if (teamToMove == "") {
     gameRunning = true;
     if (random > 0.5) {
-      //blau begins 
-      $("#header").html("Team blue begins!");
-      $("#header").css.color = "#3F88C5";
+      //blau begins
+      $("#header").html(playerNameOne + " begins!");
+      $("#header").css("color", "#3F88C5");
+      console.log("test!");
       //document.getElementById("header").innerHTML = "Team blue begins!";
       //document.getElementById("header").style.color = "#3F88C5";
       currentColor = "#3F88C5";
       teamToMove = "b";
     } else {
       //orange begins
-      $("#header").html("Team orange begins!");
-      $("#header").css.color = "#e76f51";
+      $("#header").html(playerNameTwo + " begins!");
+      $("#header").css("color", "#e76f51");
       //document.getElementById("header").innerHTML = "Team orange begins!";
       //document.getElementById("header").style.color = "#e76f51";
       currentColor = "#e76f51";
       teamToMove = "o";
     }
   } else {
-    alert("If you wanna restart the game press the button below");
+    console.log("team to move is " + teamToMove);
+    //alert("If you wanna restart the game press the button below");
   }
 }
 
 //this function is called everytime the user clicks on a field
 function handleGridClick(selGrid) {
+  console.log(currentColor);
   //we determine the position of the current Grid by identifying it's id
   let pos = selGrid.id;
   //if the grid is still empty we can fill in our Team
@@ -133,15 +160,15 @@ function handleGridClick(selGrid) {
       selGrid.childNodes[0].innerHTML = "O";
       currentColor = "#3F88C5";
       teamToMove = "b";
-      $("#header").html("Blue, it's your turn!");
-      $("#header").css.color = currentColor;
+      $("#header").html(playerNameOne + ", it's your turn!");
+      $("#header").css("color", currentColor);
     } else if (teamToMove === "b") {
       chack.play();
       selGrid.childNodes[0].innerHTML = "X";
       teamToMove = "o";
       currentColor = "#e76f51";
-      $("#header").html("Orange, it's your turn!");
-      $("#header").css.color = currentColor;
+      $("#header").html(playerNameTwo + ", it's your turn!");
+      $("#header").css("color", currentColor);
     }
   } else {
     $("#header").html("Please select an empty field!");
@@ -154,11 +181,10 @@ function handleGridClick(selGrid) {
 //Look for possible Wins
 function checkForWin() {
   //log our current state of the gameField
-  console.log(gameField);
   //we store our lines of the grid in these variables
   let curLineV = "";
   let curLineH = "";
-  
+
   //set our Win condition by repeating the teams letters the number of times
   let winCondition1 = "b".repeat(pointsToWin);
   let winCondition2 = "o".repeat(pointsToWin);
@@ -180,7 +206,7 @@ function checkForWin() {
     else if (curLineH.includes(winCondition2)) win("o", i);
   }
   //check diagonals
-  //diagonal line from the left top to the right bottom 
+  //diagonal line from the left top to the right bottom
   let curLineD = "";
   //diagonal line from the top right to the bottom left
   let curLineD2 = "";
@@ -194,10 +220,9 @@ function checkForWin() {
       //check that we dont try to acess values of our array, that do not exist
       if (i + (pointsToWin - 1) < gameSize) {
         if (j + (pointsToWin - 1) < gameSize) {
-          for(let m = 0; m < pointsToWin; m ++){
+          for (let m = 0; m < pointsToWin; m++) {
             curLineD += gameField[i + m][j + m];
           }
-          //console.log(curLineD);
           //curLineD = gameField[i][j] + gameField[i + 1][j + 1] + gameField[i + 2][j + 2];
 
           //check for win
@@ -205,18 +230,15 @@ function checkForWin() {
           else if (curLineD.includes(winCondition2)) win("o", i);
         }
       }
-      if(j - (pointsToWin - 1) >= 0) {
-        console.log("we in")
-        if(i + (pointsToWin - 1) < gameSize){
-          for(let m = 0; m < pointsToWin; m ++){
+      if (j - (pointsToWin - 1) >= 0) {
+        if (i + (pointsToWin - 1) < gameSize) {
+          for (let m = 0; m < pointsToWin; m++) {
             curLineD2 += gameField[i + m][j - m];
           }
-          console.log(curLineD2);
           if (curLineD2.includes(winCondition1)) win("b", i);
           else if (curLineD2.includes(winCondition2)) win("o", i);
         }
       }
-
     }
   }
 }
@@ -228,12 +250,16 @@ function win(team, winningIDs) {
   victory.play();
   //Signalize which team has won
   if (team === "b") {
-    $("#header").html("The blue team has Won!");
-    $("#header").css.color = "#3F88C5"; //set to blue
+    pointsL += 1;
+    $("#scoreL").html(pointsL + playerNameOne);
+    $("#header").html(playerNameOne + " has Won!");
+    $("#header").css("color", "#3F88C5"); //set to blue
     //toDO highlight winning line
   } else {
-    $("#header").html("The orange team has Won!");
-    $("#header").css.color = "#e76f51"; //set to orange
+    pointsR += 1;
+    $("#scoreR").html(pointsR + playerNameTwo);
+    $("#header").html(playerNameTwo + " has Won!");
+    $("#header").css("color", "#e76f51"); //set to orange
     //toDO: highlight winning line
   }
   //Input our beautiful Confetti effect!, insertAdjacentHTML doesnt changes our Mouseevents.
@@ -243,21 +269,43 @@ function win(team, winningIDs) {
   $(".outer-square").prepend(
     '<div class="pyro" id="py"> <div class="before"></div> <div class="after"></div> </div>'
   );
+  //add play again button
+  $("div.outer-grid").append(
+    '<button class="resetButton" style="bottom: 7%;" onclick="playAgain()">Play again!</button>'
+  );
 }
 
+function playAgain() {
+  teamToMove = "";
+  victory.pause();
+  beep2.play();
+  $(".pyro").remove();
+  $(".inner-grid").remove();
+  $(".resetButton").remove();
+  gameField = [];
+  currentColor = "";
+
+  console.log("team to move is " + teamToMove);
+  determineStart();
+  initUI(gameSize, pointsToWin);
+}
 //If the user wishes to reset the game we call this function we reset our game to the UI
-//ToDo: add option to play another Game, add Count of rounds won by each team 
+//ToDo: add option to play another Game, add Count of rounds won by each team
 function resetGame() {
   victory.pause();
   beep2.play();
   currentColor = "";
   teamToMove = "";
-  $("#header").html("Wer fängt an?");
+  $("#header").html("Who goes first?");
   $("#header").css.color = "#f4a261"; //set to default color
   $(".pyro").remove();
   $(".inner-grid").remove();
   $(".resetButton").remove();
   gameField = [];
+  pointsL = 0;
+  pointsR = 0;
+  $("#scoreL").html("");
+  $("#scoreR").html("");
   openSettings();
 }
 function openSettings() {
@@ -265,8 +313,10 @@ function openSettings() {
   $(".outer-square").prepend(`<div class="settingsContainer">
   <ul class="settingsTextHeader">
     Click the button above to start the Game.
+    <li class="settingsText">Enter your names:<br>
+    <input class="nameField" type="text" value="" id="playerOne"> vs. <input class="nameField" type="text" value="" id="playerTwo">
     <li class="settingsText">Choose your Game Size: <br>
-    <input type="number" value="3" id="gameSizeX" oninput="onGameSizeValueChange();"> x <input type="number" value="3"  id="gameSizeY" disabled>
+    <input type="number" value="3"  id="gameSizeX" oninput="onGameSizeValueChange();"> x <input type="number" value="3" id="gameSizeY" disabled>
     </li>
     <li class="settingsText">Choose how many Fields are needed to win: <br>
     <input type="number" value="3" id="pointsToWin" oninput="onGameSizeValueChange();"></li>

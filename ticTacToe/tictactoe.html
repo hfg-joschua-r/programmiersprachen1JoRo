@@ -21,7 +21,10 @@
     <title>Tic Tac Toe!</title>
   </head>
   <body>
-    <h3 onclick="settingsMenu()" id="header">Wer fängt an?</h3>
+    <h3 onclick="console.log('ne oder')" id="header">Who goes first?</h3>
+    <!--Score-->
+    <span class="scoreL" id="scoreL"><br></span>
+    <span class="scoreR" id="scoreR"><br></span>
     <div class="outer-grid" id="outerGrid">
       <!--äußere box/ramen-->
       <div class="outer-square">
@@ -29,6 +32,8 @@
         <div class="settingsContainer">
           <ul class="settingsTextHeader">
             Click the button above to start the Game.
+            <li class="settingsText">Enter your names:<br>
+            <input class="nameField" type="text" value="" id="playerOne"> vs. <input class="nameField" type="text" value="" id="playerTwo">
             <li class="settingsText">Choose your Game Size: <br>
             <input type="number" value="3"  id="gameSizeX" oninput="onGameSizeValueChange();"> x <input type="number" value="3" id="gameSizeY" disabled>
             </li>

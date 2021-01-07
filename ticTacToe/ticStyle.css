@@ -15,6 +15,22 @@ h3 {
   display: flex;
   justify-content: center;
 }
+span {
+  font-size: 33px;
+  font-family: "Comfortaa";
+  padding: 4%;
+  width:10%;
+}
+span.scoreR {
+  float: right;
+  color: #e76f51;
+  text-align: right;
+}
+span.scoreL {
+  float: left;
+  color: #3f88c5;
+}
+
 input {
   position:relative;
   -webkit-appearance: none; 
@@ -39,6 +55,10 @@ input:focus {
   outline:none;
   background: #f4a261;
 }
+input.nameField {
+  width:30%;
+}
+
 h3:hover {
   color: #e97b22;
 }
@@ -60,6 +80,7 @@ h3:hover {
 .settingsText {
   color: #234855;
   list-style-type:none; 
+  font-size: 24px;
   margin: 10%;
   font-family: "Comfortaa";
   font-weight: bold;
