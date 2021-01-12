@@ -8,6 +8,7 @@ div {
   box-sizing: border-box;
 }
 h3 {
+  margin-top: -15px;
   color: #f4a261;
   font-family: "Comfortaa";
   font-weight: bold;
@@ -36,13 +37,14 @@ input {
   -webkit-appearance: none; 
   width:10%;
   display: inline-block;
-  margin: 5%;
+  margin-top: 3%;
+  margin-left: 5%;
   font-size: 19px;
   text-align: center;
 	border-radius: 8px;
   border: 2px #264653 double;
   padding: 3px;
-  background: linear-gradient(120deg, #f4a261, #618c9c31);  
+  background: #ccc; 
   font-family: "Comfortaa";
 }
 input::-webkit-inner-spin-button {
@@ -87,6 +89,7 @@ h3:hover {
 }
 .startGameButton {
   position: fixed;
+  margin-left: 5%;
   background: #264653;
   color: #e76f51;
   border: 2px #14272e solid;
