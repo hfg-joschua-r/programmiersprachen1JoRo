@@ -1,0 +1,166 @@
+body {
+    margin: 20px;
+    background: #264653;
+    overflow: hidden;
+    font-family: 'Source Code Pro', monospace;
+}
+
+div {
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.outer-square {
+    position: absolute;
+    width: 91%;
+    height: 91%;
+    background-color: #ccc;
+    margin: 4%;
+    display: -webkit-flex;
+    -webkit-flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.settingsContainer {
+    background: #618c9c31;
+    border: 5px #264653 solid;
+    border-radius: 25px;
+    width: 75%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+}
+
+.settingsTextHeader {
+    height: 95%;
+    font-size: 24px;
+    color: #7a4c27;
+}
+
+.settingsText {
+    color: #234855;
+    list-style-type: none;
+    font-size: 24px;
+    margin: 10%;
+    font-weight: bold;
+}
+
+.startGameButton {
+    position: fixed;
+    background: #264653;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bold;
+    color: whitesmoke;
+    text-align: center;
+    width: 20%;
+    height: 5%;
+}
+
+.startGameButton:hover {
+    background-color: #37677a;
+}
+
+.startGameButton:focus {
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.AiModeButton {
+    position: fixed;
+    margin-left: 5%;
+    margin-top: 2.5%;
+    background: #264653;
+    color: #e76f51;
+    border: 2px #14272e solid;
+    text-align: center;
+    width: 10%;
+    height: 4%;
+}
+
+.outer-grid {
+    position: relative;
+    width: 45%;
+    margin: 0 auto;
+    padding-bottom: 45%;
+    background-color: #2a9d8f;
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    font-family: 'Source Code Pro', monospace;
+    position: relative;
+    -webkit-appearance: none;
+    width: 10%;
+    display: inline-block;
+    margin-top: 3%;
+    font-size: 19px;
+    text-align: center;
+    border-radius: 8px;
+    border: 2px #264653 double;
+    padding: 3px;
+    background: #ccc;
+}
+
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input:focus {
+    -webkit-appearance: none;
+    outline: none;
+    background: #f4a261;
+}
+
+input.nameField {
+    width: 30%;
+}
+
+
+/* new styles from here on: */
+
+button.switch {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bold;
+    width: 50%;
+    height: 7%;
+    background-color: #264653;
+    color: whitesmoke;
+}
+
+.switch:hover {
+    background-color: #37677a;
+}
+
+.switch:disabled {
+    background-color: #70bddb;
+    border: 5px solid whitesmoke;
+    border-radius: 5px;
+}
+
+.settingsContainerL {
+    background: #618c9c31;
+    align-items: center;
+    border-left: none;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: 85%;
+    height: 95%;
+    margin-right: 15%;
+    display: flex;
+}
+
+.settingsContainerR {
+    background: #618c9c31;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    width: 85%;
+    height: 95%;
+    margin-left: 15%;
+    display: flex;
+}

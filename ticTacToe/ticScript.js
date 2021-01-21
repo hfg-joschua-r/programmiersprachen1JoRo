@@ -35,13 +35,46 @@ $("#playerTwo").on("input", function(e) {
     $("#scoreR").html(`<br>${$("#playerTwo").val()}`);
     playerNameTwo = `<br>${$("#playerTwo").val()}`;
 });
+//change Settings menu
+function changeGameMode() {
+    if ($("#lSwitch").is(":disabled")) {
+        //switch to AI mode and append our AI UI
+        $("#startGameButton").remove();
+        $("#lSwitch").removeAttr('disabled')
+        $("#rSwitch").prop('disabled', 'true')
+
+
+        $("#playerTwo").val("AI");
+        $("#playerTwo").prop('disabled', 'true')
+        $(".settingsContainerL").addClass("settingsContainerR")
+        $(".settingsContainerL").removeClass("settingsContainerL")
+
+        $(".settingsTextHeader").append('<li class="settingsText" id="startAiButton"><button class="AiModeButton" onclick="aiMode(1)">Easy</button><button class="AiModeButton" onclick="aiMode(2)">Medium</button><button class="AiModeButton" onclick="aiMode(3)">HARD</button></li>');
+
+    } else {
+        $("#startAiButton").remove();
+        $("#rSwitch").removeAttr('disabled')
+        $("#lSwitch").prop('disabled', 'true')
+
+        $("#playerTwo").val("");
+        $("#playerTwo").removeAttr('disabled')
+        $(".settingsContainerR").addClass("settingsContainerL")
+        $(".settingsContainerR").removeClass("settingsContainerR")
+
+        $(".settingsTextHeader").append('<li class="settingsText" id="startGameButton"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>')
+    }
+}
+
+
+
+
 
 //This defines our UI that pops up when the user opens the page to setup his game:
 function settingsMenu() {
 
     //Get all values out of our Input fields for later use
     let gX = $("#gameSizeX").val(); //gameSizeX
-    let gY = $("#gameSizeY").val(); //gameSizeY
+    //let gY = $("#gameSizeY").val(); //gameSizeY
     let ptw = $("#pointsToWin").val(); //points To Win
     playerNameOne = `<br>${$("#playerOne").val()}`;
     $("#scoreR").html(`<br>${$("#playerTwo").val()}`);
@@ -71,7 +104,11 @@ function settingsMenu() {
 function initUI(gameSizeY, p) {
     //Generate GameField
     //remove SettingsMenu
-    $(".settingsContainer").remove();
+    $("#lSwitch").remove();
+    $("#rSwitch").remove();
+
+    $(".settingsContainerL").remove();
+    $(".settingsContainerR").remove();
     //At this point we only allow square GameFields
     gameSizeX = gameSizeY;
     gameSize = gameSizeY; //assign to store it in our script
@@ -169,13 +206,13 @@ function handleGridClick(selGrid) {
             currentColor = "#e76f51";
             $("#header").html(playerNameTwo + ", it's your turn!");
             $("#header").css("color", currentColor);
-            if (inAiMode) bestMove();
+            if (inAiMode && gameRunning) bestMove();
         }
     } else {
         $("#header").html("Please select an empty field!");
     }
     //call our function if we have a win situation
-    checkForWin();
+    if (!inAiMode) checkForWin();
 }
 
 //Look for possible Wins
@@ -327,7 +364,7 @@ function playAgain() {
     $(".resetButton").remove();
     gameField = [];
     currentColor = "";
-    console.log("team to move is " + teamToMove);
+    //console.log("team to move is " + teamToMove);
     if (!inAiMode) determineStart();
     else aiMode();
     initUI(gameSize, pointsToWin);
@@ -349,24 +386,25 @@ function resetGame() {
     pointsR = 0;
     $("#scoreL").html("");
     $("#scoreR").html("");
+    inAiMode = false;
     openSettings();
 }
 
 function openSettings() {
     //add our settingsHTML to the outer-sqaure, so the user can change the current Game-Settings
-    $(".outer-square").prepend(`<div class="settingsContainer">
-  <ul class="settingsTextHeader">
-    Click the button above to start the Game.
-    <li class="settingsText">Enter your names:<br>
-    <input class="nameField" type="text" value="" id="playerOne"> vs. <input class="nameField" type="text" value="" id="playerTwo">
-    <li class="settingsText">Choose your Game Size: <br>
-    <input type="number" value="3"  id="gameSizeX" oninput="onGameSizeValueChange();"> x <input type="number" value="3" id="gameSizeY" disabled>
-    </li>
-    <li class="settingsText">Choose how many Fields are needed to win: <br>
-    <input type="number" value="3" id="pointsToWin" oninput="onGameSizeValueChange();"></li>
-    <li class="settingsText"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
-    <li class="settingsText"><button class="AiModeButton" onclick="aiMode()">Play vs an AI!</button></li>
-  </ul>
+    $(".outer-square").prepend(`<button class="switch" disabled id="lSwitch" onclick="changeGameMode()">Player vs Player</button><button class="switch" id="rSwitch" onclick="changeGameMode()">Player vs AI</button>
+    <div class="settingsContainerL">
+    <ul class="settingsTextHeader">
+        Click the button below to start the Game.
+        <li class="settingsText">Enter your names:<br>
+            <input class="nameField" type="text" value="" id="playerOne"> vs. <input class="nameField" type="text" value="" id="playerTwo">
+            <li class="settingsText">Choose your Game Size: <br>
+                <input type="number" value="3" id="gameSizeX" oninput="onGameSizeValueChange();"> x <input type="number" value="3" id="gameSizeY" disabled>
+            </li>
+            <li class="settingsText">Choose how many Fields are needed to win: <br>
+                <input type="number" value="3" id="pointsToWin" oninput="onGameSizeValueChange();"></li>
+            <li class="settingsText" id="startGameButton"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
+    </ul>
 </div>`);
 }
 
@@ -387,18 +425,40 @@ function openSettings() {
 
 //bug: die ai spielt gegen sich selber durch und hängt sich dann auf
 let DebugCounter = 0;
-let gameSizeAI = 5;
+let gameSizeAI = 3;
+let maxDepth = 4;
 
-function aiMode() {
+function aiMode(difficulty) {
     //the AI Will always take orange/playerTwo
-    teamToMove = playerTwo;
-    gameRunning = true;
-    //console.log("counter")
-    inAiMode = true;
-    initUI(3, 3);
-    bestMove();
+    console.log(difficulty);
+    let gX = $("#gameSizeX").val(); //gameSizeX
+    let ptw = $("#pointsToWin").val(); //points To Win
+    playerNameOne = `<br>${$("#playerOne").val()}`;
+    $("#scoreL").html(`<br>${$("#playerOne").val()}`);
 
+    switch (difficulty) {
+        case 1:
+            maxDepth = 2;
+            break;
+        case 2:
+            maxDepth = 4;
+            break;
+        case 3:
+            maxDepth = 6;
+            break;
+    }
+
+    gameSizeAI = gX;
+    gameSize = gameSizeAI;
+    gameRunning = true;
+    inAiMode = true;
+    initUI(gameSizeAI, ptw);
+    $("#scoreR").html(`<br>AI`);
+    playerNameTwo = "AI";
+    teamToMove = playerTwo;
+    bestMove();
 }
+
 
 //this is the ai move
 function bestMove() {
@@ -407,8 +467,8 @@ function bestMove() {
     let moveI;
     let moveJ;
 
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
+    for (let i = 0; i < gameSizeAI; i++) {
+        for (let j = 0; j < gameSizeAI; j++) {
             if (gameField[i][j] == '') {
                 gameField[i][j] = playerTwo;
                 let score = minimax(gameField, 0, false);
@@ -433,20 +493,26 @@ let scores = {
 }
 
 function minimax(board, depth, isMaximizing) {
+
+    //console.log(maxDepth);
+
     let result = checkForWinAI();
     if (result !== null) {
         return scores[result]
-            //we're at the end of the tree, game is terminated
+            //we're at the end of the tree, game would be terminated
     }
 
     if (isMaximizing) {
         let bestScore = -Infinity;
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
+        for (let i = 0; i < gameSizeAI; i++) {
+            for (let j = 0; j < gameSizeAI; j++) {
                 // Is the spot available?
                 if (gameField[i][j] == '') {
+                    let score = 0;
                     gameField[i][j] = playerTwo;
-                    let score = minimax(board, depth + 1, false);
+                    if (depth + 1 < maxDepth) {
+                        score = minimax(board, depth + 1, false);
+                    }
                     gameField[i][j] = '';
                     bestScore = Math.max(score, bestScore);
                 }
@@ -455,12 +521,15 @@ function minimax(board, depth, isMaximizing) {
         return bestScore;
     } else {
         let bestScore = Infinity;
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
+        for (let i = 0; i < gameSizeAI; i++) {
+            for (let j = 0; j < gameSizeAI; j++) {
                 // Is the spot available?
                 if (gameField[i][j] == '') {
+                    let score = 0;
                     gameField[i][j] = playerOne;
-                    let score = minimax(board, depth + 1, true);
+                    if (depth + 1 < maxDepth) {
+                        score = minimax(board, depth + 1, true);
+                    }
                     gameField[i][j] = '';
                     bestScore = Math.min(score, bestScore);
                 }
@@ -487,9 +556,15 @@ function changePlayer(x, y) {
     console.log(gameField)
     if (isThereAWinner == "b") {
         console.log("the players has beaten the AI");
+        win("b", 0)
     } else if (isThereAWinner == "o") {
         console.log("the Ai has beaten the player (once again)");
+        win("o", 0)
     } else if (isThereAWinner == 'tie') {
+        $("#header").html("There is no winner! We have a draw.");
+        $("div.outer-grid").append(
+            '<button class="resetButton" style="bottom: 7%;" onclick="playAgain()">Play again!</button>'
+        );
         console.log("there's a tie now.");
     }
 }
@@ -507,7 +582,7 @@ function checkForWinAI() {
     let winCondition1 = playerOne.repeat(pointsToWin);
     let winCondition2 = playerTwo.repeat(pointsToWin);
     //checking vertical and horizontal wins
-    for (let i = 0; i < gameSize; i++) {
+    for (let i = 0; i < gameSizeAI; i++) {
         curLineV = "";
         curLineH = "";
         //loop through each and every Field
@@ -535,16 +610,16 @@ function checkForWinAI() {
     let curLineD = "";
     //diagonal line from the top right to the bottom left
     let curLineD2 = "";
-    for (let i = 0; i < gameSize; i++) {
+    for (let i = 0; i < gameSizeAI; i++) {
         //gameField[i][0] is our horizontal field
         //gameField[0][j] is our vertical field
-        for (let j = 0; j < gameSize; j++) {
+        for (let j = 0; j < gameSizeAI; j++) {
             //in here we check every single Gamefield from up left to down right
             curLineD = "";
             curLineD2 = "";
             //check that we dont try to acess values of our array, that do not exist (values which are out of our current boundary)
-            if (i + (pointsToWin - 1) < gameSize) {
-                if (j + (pointsToWin - 1) < gameSize) {
+            if (i + (pointsToWin - 1) < gameSizeAI) {
+                if (j + (pointsToWin - 1) < gameSizeAI) {
                     for (let m = 0; m < pointsToWin; m++) {
                         curLineD += gameField[i + m][j + m];
                     }
@@ -558,7 +633,7 @@ function checkForWinAI() {
                 }
             }
             if (j - (pointsToWin - 1) >= 0) {
-                if (i + (pointsToWin - 1) < gameSize) {
+                if (i + (pointsToWin - 1) < gameSizeAI) {
                     for (let m = 0; m < pointsToWin; m++) {
                         curLineD2 += gameField[i + m][j - m];
                     }
@@ -573,8 +648,8 @@ function checkForWinAI() {
     }
     let isThereAnEmptyFieldLeft = false;
     //check if our whole field is full, in which case we have a draw
-    for (let i = 0; i < gameSize; i++) {
-        for (let j = 0; j < gameSize; j++) {
+    for (let i = 0; i < gameSizeAI; i++) {
+        for (let j = 0; j < gameSizeAI; j++) {
             if (gameField[i][j] == "") {
                 isThereAnEmptyFieldLeft = true;
             }
@@ -586,3 +661,6 @@ function checkForWinAI() {
         return winner;
     }
 }
+
+//BUGS: Wenn der spieler den "winning move" spielt dann setzt die AI noch einen hinter her?
+//Bei play again bekommt man beim AI Game ein leeres Feld
