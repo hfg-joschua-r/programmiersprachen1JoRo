@@ -3,13 +3,11 @@
 <!-- using the "Let's Hassel" VS-Code Extension -->
 <html>
   <head>
+    <!--Link our Stylesheet-->
     <link rel="stylesheet" href="ticStyle.css" />
     <!--Include our Font Comforta-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet"/>
     <!--Include jquery-->
     <script
       src="https://code.jquery.com/jquery-3.5.1.js"
@@ -17,6 +15,7 @@
       crossorigin="anonymous"
     ></script>
     <meta charset="utf-8" />
+    <!--Link our script-->
     <script defer src="ticScript.js"></script>
     <title>Tic Tac Toe!</title>
   </head>
@@ -40,6 +39,7 @@
             <li class="settingsText">Choose how many Fields are needed to win: <br>
             <input type="number" value="3" id="pointsToWin" oninput="onGameSizeValueChange();"></li>
             <li class="settingsText"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
+            <li class="settingsText"><button class="AiModeButton" onclick="aiMode()">Play vs an AI!</button></li>
           </ul>
         </div>
       </div>

@@ -97,6 +97,18 @@ h3:hover {
   width:10%;
   height: 4%;
 }
+.AiModeButton {
+    position: fixed;
+    margin-left: 5%;
+    margin-top: 2.5%;
+    background: #264653;
+    color: #e76f51;
+    border: 2px #14272e solid;
+    text-align: center;
+    width:10%;
+    height: 4%;
+  
+}
 .outer-grid {
   position: relative;
   width: 45%;

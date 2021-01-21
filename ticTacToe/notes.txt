@@ -1,7 +1,3 @@
-ToDo:
-add Info UI : 
-rework Win mechanics
-implement jquery
 
 colors:
 #264653
@@ -10,40 +6,6 @@ colors:
 #f4a261
 #e76f51
 
-Old score html
- <div id="score" class="score">
-      <span id="blau" class="scoreBtext">Blaues Team: </span>
-      <span id="orange" class="scoreOtext">Orangenes Team: </span>
-    </div>
+ToDo: build ai, with logical moves
 
-Old Grid html:
-  <div id="00" class="inner-grid">
-          <div class="inner-square"></div>
-          <!--Elemente in Boxen-->
-        </div>
-        <div id ="01"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="02"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="10"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="11"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="12"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="20"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="21"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        <div id="22"class="inner-grid">
-          <div class="inner-square"></div>
-        </div>
-        
-        <!--9 divs-->
+notes: 
