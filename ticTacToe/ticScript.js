@@ -388,6 +388,8 @@ let DebugCounter = 0;
 
 function aiMode() {
     //the AI Will always take orange/playerTwo
+    teamToMove = playerTwo;
+    gameRunning = true;
     console.log("counter")
     inAiMode = true;
     initUI(3, 3);
@@ -421,8 +423,8 @@ function bestMove() {
 }
 
 let scores = {
-    'b': 10,
-    'o': -10,
+    'o': 10,
+    'b': -10,
     'tie': 0
 }
 
@@ -432,6 +434,7 @@ function minimax(board, depth, isMaximizing) {
     if (result !== null) {
         //console.log(gameField)
         return scores[result]
+            //we're at the end of the tree, game is terminated
     }
 
     if (isMaximizing) {
