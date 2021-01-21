@@ -328,7 +328,8 @@ function playAgain() {
     gameField = [];
     currentColor = "";
     console.log("team to move is " + teamToMove);
-    determineStart();
+    if (!inAiMode) determineStart();
+    else aiMode();
     initUI(gameSize, pointsToWin);
 }
 
@@ -364,6 +365,7 @@ function openSettings() {
     <li class="settingsText">Choose how many Fields are needed to win: <br>
     <input type="number" value="3" id="pointsToWin" oninput="onGameSizeValueChange();"></li>
     <li class="settingsText"><button class="startGameButton" onclick="settingsMenu()">Start the Game</button></li>
+    <li class="settingsText"><button class="AiModeButton" onclick="aiMode()">Play vs an AI!</button></li>
   </ul>
 </div>`);
 }
@@ -385,21 +387,22 @@ function openSettings() {
 
 //bug: die ai spielt gegen sich selber durch und hängt sich dann auf
 let DebugCounter = 0;
-
+let gameSizeAI = 5;
 
 function aiMode() {
     //the AI Will always take orange/playerTwo
     teamToMove = playerTwo;
     gameRunning = true;
-    console.log("counter")
+    //console.log("counter")
     inAiMode = true;
     initUI(3, 3);
     bestMove();
+
 }
 
 //this is the ai move
 function bestMove() {
-    console.log(gameField);
+    //console.log(gameField);
     let bestScore = -Infinity;
     let moveI;
     let moveJ;
@@ -419,7 +422,7 @@ function bestMove() {
             }
         }
     }
-    gameField[moveI, moveJ] = playerTwo;
+    gameField[moveI][moveJ] = playerTwo;
     changePlayer(moveI, moveJ)
 }
 
@@ -473,14 +476,22 @@ function changePlayer(x, y) {
     gameField[x][y] = teamToMove;
     //change team thats on the move, add content to our Field and change Colors
     bumm.play();
-    $('#' + chosenID).children().html("0")
+    $('#' + chosenID).children().html("O")
         //$('#' + chosenID).childNodes[0].innerHTML = "O";
     currentColor = "#3F88C5";
     teamToMove = playerOne;
     $("#header").html(playerNameOne + ", it's your turn!");
     $("#header").css("color", currentColor);
     //call our function if we have a win situation
-    //checkForWin();
+    let isThereAWinner = checkForWinAI();
+    console.log(gameField)
+    if (isThereAWinner == "b") {
+        console.log("the players has beaten the AI");
+    } else if (isThereAWinner == "o") {
+        console.log("the Ai has beaten the player (once again)");
+    } else if (isThereAWinner == 'tie') {
+        console.log("there's a tie now.");
+    }
 }
 
 //Look for possible Wins
@@ -507,18 +518,14 @@ function checkForWinAI() {
         }
         //check our generated strings against our winconditions
         if (curLineV.includes(winCondition1)) {
-
             return playerOne;
         } else if (curLineV.includes(winCondition2)) {
-
             return playerTwo;
         }
 
         if (curLineH.includes(winCondition1)) {
-
             return playerOne;
         } else if (curLineH.includes(winCondition2)) {
-
             return playerTwo;
         }
     }
@@ -544,10 +551,8 @@ function checkForWinAI() {
 
                     //check for win
                     if (curLineD.includes(winCondition1)) {
-
                         return playerOne;
                     } else if (curLineD.includes(winCondition2)) {
-
                         return playerTwo;
                     }
                 }
@@ -558,10 +563,8 @@ function checkForWinAI() {
                         curLineD2 += gameField[i + m][j - m];
                     }
                     if (curLineD2.includes(winCondition1)) {
-
                         return playerOne;
                     } else if (curLineD2.includes(winCondition2)) {
-
                         return playerTwo;
                     }
                 }
