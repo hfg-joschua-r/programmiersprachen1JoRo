@@ -169,6 +169,7 @@ function handleGridClick(selGrid) {
             currentColor = "#e76f51";
             $("#header").html(playerNameTwo + ", it's your turn!");
             $("#header").css("color", currentColor);
+            if (inAiMode) bestMove();
         }
     } else {
         $("#header").html("Please select an empty field!");
@@ -429,10 +430,8 @@ let scores = {
 }
 
 function minimax(board, depth, isMaximizing) {
-    console.log(depth);
     let result = checkForWinAI();
     if (result !== null) {
-        //console.log(gameField)
         return scores[result]
             //we're at the end of the tree, game is terminated
     }
@@ -578,14 +577,7 @@ function checkForWinAI() {
             }
         }
     }
-    //this is executed if we have a draw, we add our play Again button.
-
-
     if (!isThereAnEmptyFieldLeft) {
-        $("#header").html("There is no winner! We have a draw.");
-        $("div.outer-grid").append(
-            '<button class="resetButton" style="bottom: 7%;" onclick="playAgain()">Play again!</button>'
-        );
         return 'tie';
     } else {
         return winner;
