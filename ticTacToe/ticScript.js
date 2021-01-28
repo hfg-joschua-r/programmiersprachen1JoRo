@@ -204,7 +204,6 @@ function determineStart() {
 //this function is called everytime the user clicks on a field
 //this function is called by our html
 function handleGridClick(selGrid) {
-    console.log(gameField);
     //we determine the position of the current Grid by identifying it's id
     let pos = selGrid.id;
     //if the grid is still empty we can fill in our Team in the array
@@ -258,7 +257,6 @@ function handleGridClick(selGrid) {
 //Look for possible Winning situations, needs a lot of variables to store 
 
 function checkForWin() {
-    //log our current state of the gameField
     //we store each line of the grid in these variables
     let curLineV = "";
     let curLineH = "";
@@ -275,8 +273,8 @@ function checkForWin() {
         //loop through each and every Field
         for (let j = 0; j < gameField[i].length; j++) {
             //add the content of the field to our line string 
-            curLineV += gameField[i][j];
-            curLineH += gameField[j][i];
+            curLineH += gameField[i][j];
+            curLineV += gameField[j][i];
         }
         //check our generated strings against our win conditions
         if (curLineV.includes(winCondition1)) {
