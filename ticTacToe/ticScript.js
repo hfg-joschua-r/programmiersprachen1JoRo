@@ -204,6 +204,7 @@ function determineStart() {
 //this function is called everytime the user clicks on a field
 //this function is called by our html
 function handleGridClick(selGrid) {
+    console.log(gameField);
     //we determine the position of the current Grid by identifying it's id
     let pos = selGrid.id;
     //if the grid is still empty we can fill in our Team in the array

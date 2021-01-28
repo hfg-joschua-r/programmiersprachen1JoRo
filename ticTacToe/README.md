@@ -8,22 +8,29 @@ Hier beschreibe ich, was dieses großartige Projekt tut. Weshalb es gebaut wurde
 
 ## Usage / Benutzung
 
-Hier beschreibe ich, wie man mein großartiges Projekt benutzen kann. Was ich tun muss um es zum Laufen zu bekommen (downloaden? welcher Browser? etc.). Wie ich es steuern kann. Was (noch) nicht richtig funktioniert und weshalb.
+Um TicTacToe spielen zu können ist es nötig das Repository lokal zu klonen und daraufhin tictactoe.html im Browser auszuführen (bevorzugt Google Chrome oder Firefox). Daraufhin sollte sich die Benutzeroberfläche zum Spielen öffnen. 
+Achtung! Momentan sind nur begrenzte Spielfeld-Größen möglich (bei Player vs. Player max 10x10, im AI modus max 5x5).
 
 ## Structure / Aufbau
 
-Hier werden kurz die Klassen und Funktionen beschrieben, die eine tragende Rolle in eurem großartigen Projekt spielen. 
-Klassen können z.B. wie folgt kurz beschrieben werden:
+Wichtige Variablen bei diesem Tic Tac Toe: 
 
-* **Beer:** Eine Klasse um ein Bier in Code abzubilden. Enthält typische Eigenschaften von Bier:
-  * `alcVol`: der Alkoholgehalt (Property)
-  * `amount`: die Menge (Property, Standardwert: 500ml)
+* **let gameRunning** Eine Bool zur Feststellung ob das Spiel momentan "läuft" und in dem Zuge Klicks o.ä. zulässt.
+  * `gameSizeXY`: Spielfeld-Größe
+  * `p`: pointsToWin, also wieviele gleiche in einer Reihe benötigt sind um ein Spiel für sich zu entscheiden.
 
-* **Person:** Eine Klasse um eine Person in Code abzubilden. Enthält typische Eigenschaften und Methoden von Menschen, um mit Bier zu interagieren:
-  * `drinkBeer(beer)`: trinkt ein Bier, welches als Parameter übergeben wird und vom Typ / Klasse "Beer" sein muss (Funktion)
-  * `isDrunk`: gibt an ob eine Person betrunken ist (Property, Boolean)
+* **let gameField = []:** Ein Array um unser Spielfeld status zu Speichern. Wird Verwendet bei: 
+  * `checkWin()`: Zur Gewinnermittlung wird das gesamte Array ausgelesen und auf "Gewinnsituationen" überprüft. 
+  * `minimax(board, depth, isMaximizing)`: Zum Planen des nächsten AI-Zuges
 
-_Zentrale Funktionen (die nicht zu Klassen gehören) folgen dem selben Muster, werden aber meist etwas ausführlicher beschrieben:_
+_Zentrale Funktionen von diesem TicTacToe Spiel:_
+
+`function initUI(gameSizeXY, p)`: Eine Funktion zur generierung des Spielfelds & Grundsatz für die Spiellogik
+  * `gameSizeXY`: Spielfeld-Größe
+  * `p`: pointsToWin, also wieviele gleiche in einer Reihe benötigt sind um ein Spiel für sich zu entscheiden.
+Aufbauend auf dem `gameSize` Wert wird das obig beschriebene `gameField` Array generiert und die sichtbaren Zellen des Spielfelds erstellt und dargestellt. Im Anschluss werden durch die `addEventListeners()` Funktion jedem Feld ein Event-Listener für Hover- und Clickevents zugewiesen. Die Event-Listener für Click Events sind für jedes Feld einzigartig, da sie beim Click ihre eigene ID übergeben, um diese später in der `handleGridClick(selGrid)` Funktion auszuwerten & zuweisen zu können. Die ID's stehen in direkter Verbindung zum `gameField` Array, wie die Grafik zeigt.
+<img src="./resources/imageFiles/ids.png">
+
 
 `haveParty(persons[], interval)`: Eine Funktion die ein Array von Personen entgegennimmt, und diese dann im angegebenen Intervall Bier trinken lässt. Nach jedem Durchlauf durch das Biertrinken (durch Aufruf von drinkBeer mit einem neu erzeugten Bier-Objekt) wird überprüft, ob die Anzahl der betrunkenen Personen größer 0 ist. Wenn dies eintritt, wird das Intervall bei jedem Durchlauf auf die doppelte Länge verlängert. Die Funktion endet in ihrer Ausführung dann wenn alle Personen isDrunk = true zurückgeben, oder wenn das Interval größer als 1 Stunde wird. Wird die Funktion mit nur einer Person im Array aufgerufen, wird eine Warnmeldung ausgegeben, um versehentliches Trinken alleine zu vermeiden. 
 
