@@ -1,0 +1,23 @@
+{
+    "esversion":6,
+    "undef": true,
+    "unused": true,
+    "globals": {
+        "alert": true,
+        "Audio": true
+    },
+    "jquery":true,
+    "browser": true,
+    "eqeqeq": true,
+    "trailing": true,
+    "funcscope": false,
+    "loopfunc": false,
+    "indent": 4,
+    "white": true,
+    "asi": true,
+    "devel": true,
+    "maxdepth": 5,
+    "maxparams": 6,
+    "maxstatements": 30,
+    "maxlen": 140
+}
