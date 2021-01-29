@@ -48,8 +48,10 @@ Bei der diagonalen Gewinnüberprüfung, muss zunächst festgestellt werden ob ei
 * `isMaximizing`: Bool ob der nächste Zug vom Spieler oder der AI getätigt wird.
 
 Es werden alle möglichen Züge der AI innerhalb einer For-Schleife gesammelt und einzeln bewertet. Bewertet werden die Züge danach, dass sich ein Baumdiagramm aufstellt mit möglichen nächsten Zügen des Spielers und möglichen "Antworten" der AI. Gewinne der AI werden als 100 Punkte gewertet, Siege des Spielers als -100 und Unentschieden als 0. Wie tief dieser Baum geführt wird ist mit der Variable `maxDepth` festgelegt. 
-<img src="./resources/imageFiles/minimax.jpg" width="700px">
 
+
+<img src="./resources/imageFiles/minimax.jpg" width="500px">
+<br>
 Wenn der beste Zug mit dem besten "Score" ermittelt wurde, wird dieser durch die Funktion `function changePlayer(x, y)` gespielt und auf den Zug des Spielers gewartet.
 
 ### _Zusammenfassung von diesem Tic Tac Toe_
