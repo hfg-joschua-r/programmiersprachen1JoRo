@@ -4,7 +4,9 @@ TicTacToe im Browser spielen? Ähnlich revolutionär wie die Klimapolitik der CD
 Bestandteil des Projektes sind variable Spielregeln (Spielfeldgröße, Punkte die benötigt sind um zu gewinnen etc.) und ein Spielmodus gegen eine AI. 
 
 <img src="./resources/imageFiles/screenshotWin.png" width="700px">
-Hier beschreibe ich, was dieses großartige Projekt tut. Weshalb es gebaut wurde. Welche Inspirationen und vorhandenen Quellen eingeflossen sind, und für wen es gemacht wurde. Ein Screenshot macht sich hier auch immer gut.
+Inspirationen: 
+* [Coding Challenge 154: Tic Tac Toe AI with Minimax Algorithm](https://www.youtube.com/watch?v=trKjYdBASyQ&t=1337s)
+* [Tic-Tac-Toe with JavaScript: AI Player with Minimax Algorithm](https://alialaa.com/blog/tic-tac-toe-js-minimax)
 
 ## Usage / Benutzung
 
