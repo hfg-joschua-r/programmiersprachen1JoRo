@@ -31,6 +31,7 @@ _Zentrale Funktionen von diesem TicTacToe:_
 
 Aufbauend auf dem `gameSize` Wert wird das obig beschriebene `gameField` Array generiert und die sichtbaren Zellen des Spielfelds erstellt und dargestellt. Im Anschluss werden durch die `addEventListeners()` Funktion jedem Feld bzw. jeder Zelle ein Event-Listener für Hover- und Clickevents zugewiesen. Die Event-Listener für Click Events sind für jedes Feld einzigartig, da sie beim Click ihre eigene ID übergeben, um diese später in der `handleGridClick(selGrid)` Funktion auszuwerten können.
 Die ID's stehen in direkter Verbindung zum `gameField` Array, wie diese Grafik zeigt:
+
 <img src="./resources/imageFiles/ids.png" width="700px">
 
 
