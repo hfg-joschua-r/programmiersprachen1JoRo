@@ -51,7 +51,7 @@ Es werden alle möglichen Züge der AI innerhalb einer For-Schleife gesammelt un
 
 
 <img src="./resources/imageFiles/minimax.jpg" width="500px">
-<br>
+
 Wenn der beste Zug mit dem besten "Score" ermittelt wurde, wird dieser durch die Funktion `function changePlayer(x, y)` gespielt und auf den Zug des Spielers gewartet.
 
 ### _Zusammenfassung von diesem Tic Tac Toe_
