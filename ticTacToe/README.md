@@ -4,9 +4,12 @@ TicTacToe im Browser spielen? Ähnlich revolutionär wie die Klimapolitik der CD
 Bestandteil des Projektes sind variable Spielregeln (Spielfeldgröße, Punkte die benötigt sind um zu gewinnen etc.) und ein Spielmodus gegen eine AI. 
 
 <img src="./resources/imageFiles/screenshotWin.png" width="700px">
-Inspirationen: 
-* [Coding Challenge 154: Tic Tac Toe AI with Minimax Algorithm](https://www.youtube.com/watch?v=trKjYdBASyQ&t=1337s)
-* [Tic-Tac-Toe with JavaScript: AI Player with Minimax Algorithm](https://alialaa.com/blog/tic-tac-toe-js-minimax)
+
+### Inspirationen:
+
+* [Coding Challenge 154: Tic Tac Toe AI with Minimax Algorithm](https://www.youtube.com/watch?v=trKjYdBASyQ) 
+* [Tic-Tac-Toe with JavaScript: AI Player with Minimax Algorithm](https://alialaa.com/blog/tic-tac-toe-js-minimax) 
+
 
 ## Usage / Benutzung
 
@@ -41,6 +44,7 @@ Die ID's stehen in direkter Verbindung zum `gameField` Array, wie diese Grafik z
 
 `function checkForWin()`: Eine Funktion um den Status des aktuellen Spielfelds auszuwerten und mögliche Gewinne zu ermitteln.<br> Zunächst werden die zwei Siegesbedingungen (`winCondition1` & `winCondition2`) gesetzt, indem das Team Symbol (momentan o & b für orange und blau) so oft wiederholt wird, wieviele [pointsToWin](#Zentrale-Funktionen-von-diesem-TicTacToe) benötigt sind. Folgende drei Gewinnmöglichkeiten sind jeweils separiert: vertikaler, horizontaler oder diagonaler Gewinn, die grundlegende Logik bleibt jedoch die Selbe: Es wird das ganze Spielfeld Zeile für Zeile betrachtet (*Anmerkung: Hier könnte sich ein vermeindliches Bottleneck für größere/tiefere AI-Spiele befinden*) und in die Strings `curLineV`, `curLineH`, `curLineD` und `curLineD2` geschrieben. <br>Daraufhin wird überprüft ob einer dieser Strings unserer Siegesbedingungen enthält.
 <img src="./resources/imageFiles/checkForWin.png" width="700px">
+
 <br>
 Bei der diagonalen Gewinnüberprüfung, muss zunächst festgestellt werden ob ein solcher Gewinn überhaupt möglich ist (man also nicht Werte abfragt die außerhalb des Arrays liegen). Der Prozess danach verläuft jedoch ähnlich. Siehe <a href="https://github.com/hfg-joschua-r/programmiersprachen1JoRo/blob/7bd6ce1d5965dc0d9dbfba54d14a85fdf3479dfd/ticTacToe/ticScript.js#L294-L334">Line 294-334</a>.  
 
