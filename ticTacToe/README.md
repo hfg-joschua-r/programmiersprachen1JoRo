@@ -28,7 +28,8 @@ Achtung! Momentan sind nur begrenzte Spielfeld-Größen möglich (bei Player vs.
 
 ### _Zentrale Funktionen von diesem TicTacToe:_
 
-`function initUI(gameSizeXY, p)`: Eine Funktion zur generierung des Spielfelds & Grundsatz für die Spiellogik
+#### `function initUI(gameSizeXY, p)`:
+Eine Funktion zur generierung des Spielfelds & Grundsatz für die Spiellogik
   * `gameSizeXY`: Spielfeld-Größe
   * `p`: pointsToWin, also wieviele gleiche in einer Reihe benötigt sind um ein Spiel für sich zu entscheiden.
 
@@ -38,12 +39,13 @@ Die ID's stehen in direkter Verbindung zum `gameField` Array, wie diese Grafik z
 <img src="./resources/imageFiles/ids.png" width="700px">
 
 
-`function handleGridClick(selGrid)`:
+#### `function handleGridClick(selGrid)`:
 * `selGrid`: Hierin wird die ID der geklickten Zelle übergeben.
 
 Diese Funktion wird dann aufgerufen, wenn der Spieler auf eine der Zellen drückt und somit den Event-Listener dieser Zelle triggert. Der Funktion wird die selGrid (kurz für selected Grid) Variable übergeben, in diesem Fall die ID der Zelle. Daraufhin folgt die Überprüfung ob die gewählte Zelle leer ist. Sollte dem so sein, wird die Zelle mit dem Zeichen des `teamToMove` also dem aktiven Spieler besetzt. Sobald alle Style und Logik Anpassungen für den nächsten Zug getroffen wurden, wird durch die `checkForWin()` Funktion ermittelt, ob es einen Gewinner gibt.
 
-`function checkForWin()`: Eine Funktion um den Status des aktuellen Spielfelds auszuwerten und mögliche Gewinne zu ermitteln.<br> Zunächst werden die zwei Siegesbedingungen (`winCondition1` & `winCondition2`) gesetzt, indem das Team Symbol (momentan o & b für orange und blau) so oft wiederholt wird, wieviele [pointsToWin](#Zentrale-Funktionen-von-diesem-TicTacToe) benötigt sind. Folgende drei Gewinnmöglichkeiten sind jeweils separiert: vertikaler, horizontaler oder diagonaler Gewinn, die grundlegende Logik bleibt jedoch die Selbe: Es wird das ganze Spielfeld Zeile für Zeile betrachtet (*Anmerkung: Hier könnte sich ein vermeindliches Bottleneck für größere/tiefere AI-Spiele befinden*) und in die Strings `curLineV`, `curLineH`, `curLineD` und `curLineD2` geschrieben. <br>Daraufhin wird überprüft ob einer dieser Strings unserer Siegesbedingungen enthält.
+#### `function checkForWin()`:
+Eine Funktion um den Status des aktuellen Spielfelds auszuwerten und mögliche Gewinne zu ermitteln.<br> Zunächst werden die zwei Siegesbedingungen (`winCondition1` & `winCondition2`) gesetzt, indem das Team Symbol (momentan o & b für orange und blau) so oft wiederholt wird, wieviele [pointsToWin](#Zentrale-Funktionen-von-diesem-TicTacToe) benötigt sind. Folgende drei Gewinnmöglichkeiten sind jeweils separiert: vertikaler, horizontaler oder diagonaler Gewinn, die grundlegende Logik bleibt jedoch die Selbe: Es wird das ganze Spielfeld Zeile für Zeile betrachtet (*Anmerkung: Hier könnte sich ein vermeindliches Bottleneck für größere/tiefere AI-Spiele befinden*) und in die Strings `curLineV`, `curLineH`, `curLineD` und `curLineD2` geschrieben. <br>Daraufhin wird überprüft ob einer dieser Strings unserer Siegesbedingungen enthält.
 <img src="./resources/imageFiles/checkForWin.png" width="700px">
 
 <br>
