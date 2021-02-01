@@ -51,7 +51,7 @@ Eine Funktion um den Status des aktuellen Spielfelds auszuwerten und mögliche G
 <br>
 Bei der diagonalen Gewinnüberprüfung, muss zunächst festgestellt werden ob ein solcher Gewinn überhaupt möglich ist (man also nicht Werte abfragt die außerhalb des Arrays liegen). Der Prozess danach verläuft jedoch ähnlich. Siehe <a href="https://github.com/hfg-joschua-r/programmiersprachen1JoRo/blob/7bd6ce1d5965dc0d9dbfba54d14a85fdf3479dfd/ticTacToe/ticScript.js#L294-L334">Line 294-334</a>.  
 
-`function bestMove()` & `function minimax(board, depth, isMaximizing)` Sind Funktionen welche für die Züge der AI zuständig sind. 
+#### `function bestMove()` & `function minimax(board, depth, isMaximizing)` Sind Funktionen welche für die Züge der AI zuständig sind. 
 * `board`: Hier wird unser `gameField` Array mit den aktuellen Werten übergeben.
 * `depth`: Die aktuelle Tiefe im Baum.
 * `isMaximizing`: Bool ob der nächste Zug vom Spieler oder der AI getätigt wird.
