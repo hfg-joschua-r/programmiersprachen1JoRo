@@ -13,7 +13,7 @@ Bestandteil des Projektes sind variable Spielregeln (Spielfeldgröße, Punkte di
 
 ## Usage / Benutzung
 
-Um TicTacToe spielen zu können ist es nötig das Repository lokal zu klonen und daraufhin tictactoe.html im Browser auszuführen (bevorzugt Google Chrome oder Firefox). Daraufhin sollte sich die Benutzeroberfläche zum Spielen öffnen. 
+Um TicTacToe spielen zu können, ist es nötig das Repository lokal zu klonen und daraufhin tictactoe.html im Browser auszuführen (bevorzugt Google Chrome oder Firefox). Daraufhin sollte sich die Benutzeroberfläche zum Spielen öffnen. 
 Achtung! Momentan sind nur begrenzte Spielfeldgrößen möglich (bei Player vs. Player max 10x10, im AI modus max 5x5). 
 
 ## Structure / Aufbau
